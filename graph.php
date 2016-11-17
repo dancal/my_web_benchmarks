@@ -3,6 +3,45 @@
 
 include "PHPlot/phplot/phplot.php";
 
+function WritePngGraphData( $sTitle, $sXTitle, $sYTitle, $rLegend, $rData, $sWriteFile ) {
+
+	$plot = new PHPlot(1200,800);
+
+	//Set titles
+	$plot->SetTitle($sTitle);
+	$plot->SetXTitle($sXTitle);
+	$plot->SetYTitle($sYTitle);
+
+	$plot->SetLegend($rLegend);
+	$plot->SetDataValues($rData);
+
+	//$plot->SetLineStyles();
+	//$plot->SetImageBorderType('plain'); // Improves presentation in the manual
+	$plot->SetPlotType('linepoints');
+	$plot->SetDataType('text-data');
+	$plot->SetDrawXDataLabelLines(True);
+
+	$plot->SetLineWidths(2);
+	$plot->SetPointSizes(10);
+	$plot->SetLineStyles('solid');
+	$plot->SetLegendUseShapes(True);
+	//$plot->SetYTickLabelPos('none');
+	//$plot->SetYTickPos('none');
+
+	# X tick marks are meaningless with this data:
+	//$plot->SetXTickPos('none');
+	//$plot->SetXTickLabelPos('none');
+	$plot->SetLegendPosition(0, 0, 'image', 0, 0, 150, 25);
+
+	$plot->SetIsInline(True);
+	$plot->SetOutputFile($sWriteFile);
+	$plot->SetFileFormat("png"); // is default anyway 
+
+	$plot->DrawGraph();
+
+	return true;
+}
+
 $request_output		= "/var/www/html/result_request.png";
 $avg_latency_output	= "/var/www/html/result_avg_latency.png";
 $max_latency_output	= "/var/www/html/result_max_latency.png";
@@ -58,114 +97,10 @@ foreach ( $rMaxLatencyData as $c => $rList ) {
 	}
 	$max_latency_data[]	= $rItem;
 }
-$plot = new PHPlot(1200,800);
 
-//Set titles
-$plot->SetTitle(" [ WRK ] Hello World Web Server : Request/sec");
-$plot->SetXTitle('Concurrency');
-$plot->SetYTitle('Requests/Sec');
-
-$plot->SetLegend($legend);
-$plot->SetDataValues($request_data);
-
-//$plot->SetLineStyles();
-//$plot->SetImageBorderType('plain'); // Improves presentation in the manual
-$plot->SetPlotType('linepoints');
-$plot->SetDataType('text-data');
-$plot->SetDrawXDataLabelLines(True);
-
-$plot->SetLineWidths(2);
-$plot->SetPointSizes(10);
-$plot->SetLineStyles('solid');
-$plot->SetLegendUseShapes(True);
-//$plot->SetYTickLabelPos('none');
-//$plot->SetYTickPos('none');
-
-# X tick marks are meaningless with this data:
-//$plot->SetXTickPos('none');
-//$plot->SetXTickLabelPos('none');
-$plot->SetLegendPosition(0, 0, 'image', 0, 0, 150, 25);
-
-$plot->SetIsInline(True);
-$plot->SetOutputFile($request_output);
-$plot->SetFileFormat("png"); // is default anyway 
-
-$plot->DrawGraph();
-
-
-// ---------------------------------------------------------------------------------- //
-// Avg Latency
-// ---------------------------------------------------------------------------------- //
-$plot = new PHPlot(1200,800);
-
-//Set titles
-$plot->SetTitle("[ WRK ] Hello World Web Server : avg latency");
-$plot->SetXTitle('Concurrency');
-$plot->SetYTitle('Avg Latency');
-
-$plot->SetLegend($legend);
-$plot->SetDataValues($avg_latency_data);
-
-//$plot->SetLineStyles();
-//$plot->SetImageBorderType('plain'); // Improves presentation in the manual
-$plot->SetPlotType('linepoints');
-$plot->SetDataType('text-data');
-$plot->SetDrawXDataLabelLines(True);
-
-$plot->SetLineWidths(2);
-$plot->SetPointSizes(10);
-$plot->SetLineStyles('solid');
-$plot->SetLegendUseShapes(True);
-//$plot->SetYTickLabelPos('none');
-//$plot->SetYTickPos('none');
-
-# X tick marks are meaningless with this data:
-//$plot->SetXTickPos('none');
-//$plot->SetXTickLabelPos('none');
-$plot->SetLegendPosition(0, 0, 'image', 0, 0, 150, 25);
-
-$plot->SetIsInline(True);
-$plot->SetOutputFile($avg_latency_output);
-$plot->SetFileFormat("png"); // is default anyway 
-
-$plot->DrawGraph();
-
-// ---------------------------------------------------------------------------------- //
-// MAX Latency
-// ---------------------------------------------------------------------------------- //
-$plot = new PHPlot(1200,800);
-
-//Set titles
-$plot->SetTitle("Hello World Web Server : Max latency");
-$plot->SetXTitle('Concurrency');
-$plot->SetYTitle('Max Latency');
-
-$plot->SetLegend($legend);
-$plot->SetDataValues($max_latency_data);
-
-//$plot->SetLineStyles();
-//$plot->SetImageBorderType('plain'); // Improves presentation in the manual
-$plot->SetPlotType('linepoints');
-$plot->SetDataType('text-data');
-$plot->SetDrawXDataLabelLines(True);
-
-$plot->SetLineWidths(2);
-$plot->SetPointSizes(10);
-$plot->SetLineStyles('solid');
-$plot->SetLegendUseShapes(True);
-//$plot->SetYTickLabelPos('none');
-//$plot->SetYTickPos('none');
-
-# X tick marks are meaningless with this data:
-//$plot->SetXTickPos('none');
-//$plot->SetXTickLabelPos('none');
-$plot->SetLegendPosition(0, 0, 'image', 0, 0, 150, 25);
-
-$plot->SetIsInline(True);
-$plot->SetOutputFile($max_latency_output);
-$plot->SetFileFormat("png"); // is default anyway 
-
-$plot->DrawGraph();
+$nRet	= WritePngGraphData( "Hello World Web Server : Request/Sec", "Concurrency", "Request/sec", $legend, $request_data, $request_output );
+$nRet	= WritePngGraphData( "Hello World Web Server : Request/Sec", "Concurrency", "Avg Latency", $legend, $avg_latency_data, $avg_latency_output );
+$nRet	= WritePngGraphData( "Hello World Web Server : Request/Sec", "Concurrency", "Max Latency", $legend, $max_latency_data, $max_latency_output );
 
 echo "http://10.2.3.105/result.html\n";
 
