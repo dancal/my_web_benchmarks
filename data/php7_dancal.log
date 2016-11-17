@@ -1,0 +1,13 @@
+16,27705.31,0.59648,17.45,,1665083 requests in 1.00m, 363.56MB read
+32,22476.22,1.42,16.08,,1348973 requests in 1.00m, 294.54MB read
+64,23236.43,2.75,19.48,,1394578 requests in 1.00m, 304.50MB read
+128,22925.53,5.58,24.57,,1375955 requests in 1.00m, 300.43MB read
+256,22298.68,11.49,35.21,,1338450 requests in 1.00m, 292.24MB read
+300,22717.30,12.67,25.81,,1363500 requests in 1.00m, 297.71MB read
+400,22846.72,17.50,32.11,,1371424 requests in 1.00m, 299.44MB read
+500,21841.37,22.78,67.17,,1310934 requests in 1.00m, 286.24MB read
+600,51207.39,15.64,629.68,,3077574 requests in 1.00m, 847.57MB read
+700,61803.21,62.42,1980,connect 0, read 0, write 0, timeout 1257,3709243 requests in 1.00m, 1.11GB read
+800,67345.53,160.25,1990,connect 0, read 0, write 0, timeout 960,4047453 requests in 1.00m, 1.22GB read
+900,64469.30,246.94,2000,connect 0, read 0, write 0, timeout 1679,3874546 requests in 1.00m, 1.17GB read
+1024,64202.54,69.36,2000,connect 0, read 0, write 0, timeout 10552,3858503 requests in 1.00m, 1.16GB read
